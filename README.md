@@ -61,3 +61,15 @@ Newsletter sign-up is not included: a safe one needs a service (Shopify Email, K
 - Legal pages: the footer links to Shopify's generated policies (shipping, returns, privacy, terms). Edit them in **Settings → Policies** and check they match your supplier's real delivery times.
 - Brand name: change `siteName` in `config.js`, the `<title>` tags and the wordmark text.
 - Fragrance claims: only sell products you're allowed to sell. Authenticity and trademark rules apply to drop-shipped designer fragrances.
+
+## Shopify theme version (`shopify-theme/`)
+
+The same design as a native Shopify theme (Liquid sections, Shopify's AJAX cart, Shopify-hosted checkout).
+It needs **no Storefront token**: Shopify supplies products to the theme itself.
+
+- Uploaded to the store as the **unpublished** theme "Kob (draft)". Publish it from Online Store → Themes only after you've previewed it.
+- Fragrances: product type `Fragrance`, tags `family:woody`, `note:Cedar`. For large catalogues, create an automated collection
+  (Product type equals Fragrance) and choose it in the "Fragrance shop" section settings.
+- Shopify controls HTTP headers on theme stores, so `public/_headers` and the CSP only apply to the static version.
+  The theme's protections are output escaping (checked by `npm run audit`), no `innerHTML`, and plain-text product descriptions.
+- Blog, article, gift card and password templates still use the old Helio theme sections and have not been restyled.

@@ -62,14 +62,19 @@ Newsletter sign-up is not included: a safe one needs a service (Shopify Email, K
 - Brand name: change `siteName` in `config.js`, the `<title>` tags and the wordmark text.
 - Fragrance claims: only sell products you're allowed to sell. Authenticity and trademark rules apply to drop-shipped designer fragrances.
 
-## Shopify theme version (`shopify-theme/`)
+## Shopify theme (repo root) and GitHub connection
 
-The same design as a native Shopify theme (Liquid sections, Shopify's AJAX cart, Shopify-hosted checkout).
-It needs **no Storefront token**: Shopify supplies products to the theme itself.
+The **root of this branch is a complete Shopify theme: Tinker with the Kob design applied**
+(`assets/ blocks/ config/ layout/ locales/ sections/ snippets/ templates/`). Shopify's GitHub
+integration reads those folders from the root and ignores everything else (`public/`, `scripts/`, this README).
 
-- Uploaded to the store as the **unpublished** theme "Kob (draft)". Publish it from Online Store → Themes only after you've previewed it.
-- Fragrances: product type `Fragrance`, tags `family:woody`, `note:Cedar`. For large catalogues, create an automated collection
-  (Product type equals Fragrance) and choose it in the "Fragrance shop" section settings.
+To connect: Online Store → Themes → Add theme → **Connect from GitHub**, choose this repository and this branch.
+Shopify creates an unpublished theme from it; publish it only after previewing.
+
+- Fragrances: product type `Fragrance`, tags `family:woody`, `note:Cedar`. The home page reads the
+  `fragrances` collection and the five family collections (`citrus`, `floral`, `fresh`, `woody`, `amber`).
+- Changed from stock Tinker: `config/settings_data.json` (palette, buttons, radii), `templates/index.json`
+  (home page), `sections/header-group.json`, `sections/footer-group.json`. Everything else is Tinker as shipped.
+- `kob-theme/` is my earlier from-scratch theme, kept for reference. It is not at the root, so Shopify ignores it.
 - Shopify controls HTTP headers on theme stores, so `public/_headers` and the CSP only apply to the static version.
-  The theme's protections are output escaping (checked by `npm run audit`), no `innerHTML`, and plain-text product descriptions.
-- Blog, article, gift card and password templates still use the old Helio theme sections and have not been restyled.
+- Theme edits made in the Shopify editor and pushed back through GitHub will appear as commits here.

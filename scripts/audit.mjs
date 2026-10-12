@@ -81,8 +81,8 @@ for (const f of files.filter((x) => x.endsWith('.js') && x.includes(`${path.sep}
 }
 
 /* 4b. Shopify theme: JS sinks + unescaped Liquid output (Liquid does NOT auto-escape) */
-if (existsSync(path.join(ROOT, 'shopify-theme'))) {
-  const themeFiles = files.filter((f) => f.includes(`${path.sep}shopify-theme${path.sep}`));
+if (existsSync(path.join(ROOT, 'kob-theme'))) {
+  const themeFiles = files.filter((f) => f.includes(`${path.sep}kob-theme${path.sep}`));
   for (const f of themeFiles.filter((x) => x.endsWith('.js'))) {
     const code = readFileSync(f, 'utf8').replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
     for (const re of SINKS) if (re.test(code)) fail(`Unsafe sink ${re} in ${rel(f)}`);

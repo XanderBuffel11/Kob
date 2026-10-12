@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kob · Fragrances for every kind of day</title>
+  <meta name="description" content="Browse fragrances by scent family: citrus, floral, fresh, woody and amber. Secure checkout.">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#eaeeec">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/home.js"></script>
+</head>
+<body>
+  <a class="skip" href="#shop">Skip to fragrances</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="wordmark" href="index.html" data-site-name>Kob</a>
+      <nav class="nav" aria-label="Main">
+        <a class="nav-link" href="#shop">Shop</a>
+        <a class="nav-link" href="#how">How it works</a>
+        <button type="button" class="cart-button" data-open-cart>
+          Cart <span class="cart-count" data-cart-count aria-label="items in cart">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <h1 id="hero-title">Find the scent that smells like you</h1>
+      <p class="hero-lede">Start with a family. Each one has its own mood, and the page will change colour to match.</p>
+      <ul class="chips" id="family-chips" aria-label="Scent families"></ul>
+    </section>
+
+    <section class="shop wrap" id="shop" aria-labelledby="shop-title">
+      <div class="shop-head">
+        <h2 id="shop-title">Fragrances</h2>
+        <form class="toolbar" id="search-form" role="search" novalidate>
+          <label class="sr-only" for="search">Search fragrances</label>
+          <input id="search" type="search" name="q" placeholder="Search by name or house" maxlength="60" autocomplete="off" spellcheck="false">
+          <label class="sr-only" for="sort">Sort by</label>
+          <select id="sort" name="sort">
+            <option value="new">Newest</option>
+            <option value="low">Price: low to high</option>
+            <option value="high">Price: high to low</option>
+            <option value="name">Name</option>
+          </select>
+        </form>
+      </div>
+      <p class="grid-status" aria-live="polite">
+        <span id="grid-status">Loading fragrances…</span>
+        <button type="button" class="link-button" id="clear-filters" hidden>Clear filters</button>
+      </p>
+      <ul class="grid" id="product-grid"></ul>
+    </section>
+
+    <section class="how" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <h2 id="how-title">From your screen to your door</h2>
+        <ol class="steps">
+          <li><h3>Choose a scent</h3><p>Browse by family, check the notes and pick a bottle size.</p></li>
+          <li><h3>Pay securely</h3><p>Checkout happens on Shopify’s secure payment pages. We never see or store your card details.</p></li>
+          <li><h3>We ship it</h3><p>Delivery estimates and shipping costs appear at checkout before you pay.</p></li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-row">
+        <a class="wordmark" href="index.html" data-site-name>Kob</a>
+        <ul class="footer-links">
+          <li><a href="https://fashnooknz.myshopify.com/policies/shipping-policy" rel="noopener">Shipping</a></li>
+          <li><a href="https://fashnooknz.myshopify.com/policies/refund-policy" rel="noopener">Returns</a></li>
+          <li><a href="https://fashnooknz.myshopify.com/policies/privacy-policy" rel="noopener">Privacy</a></li>
+          <li><a href="https://fashnooknz.myshopify.com/policies/terms-of-service" rel="noopener">Terms</a></li>
+        </ul>
+      </div>
+      <p class="footer-note">© <span data-year>2026</span> <span data-site-name>Kob</span>. All brand names and trademarks belong to their respective owners.</p>
+    </div>
+  </footer>
+</body>
+</html>

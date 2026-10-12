@@ -1,0 +1,14 @@
+# Secrets and environment files: never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Tooling / OS
+node_modules/
+.DS_Store
+*.log
+.vercel/
+.netlify/

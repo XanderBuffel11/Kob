@@ -1,0 +1,12 @@
+{
+  "name": "kob",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fragrance storefront powered by Shopify's Storefront API. No server, no runtime dependencies.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "audit": "node scripts/audit.mjs"
+  }
+}

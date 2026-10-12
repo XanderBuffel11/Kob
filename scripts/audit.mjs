@@ -80,6 +80,28 @@ for (const f of files.filter((x) => x.endsWith('.js') && x.includes(`${path.sep}
   if (/['"`]http:\/\//.test(code)) fail(`Insecure http:// URL in ${rel(f)}`);
 }
 
+/* 4b. Shopify theme: JS sinks + unescaped Liquid output (Liquid does NOT auto-escape) */
+if (existsSync(path.join(ROOT, 'shopify-theme'))) {
+  const themeFiles = files.filter((f) => f.includes(`${path.sep}shopify-theme${path.sep}`));
+  for (const f of themeFiles.filter((x) => x.endsWith('.js'))) {
+    const code = readFileSync(f, 'utf8').replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+    for (const re of SINKS) if (re.test(code)) fail(`Unsafe sink ${re} in ${rel(f)}`);
+  }
+  const RISKY = /\b(title|vendor|description|content|terms|alt|name|value|tag|variant_title|product_title)\b/;
+  const SAFE = /\|\s*(escape|money|json|date|plus|image_url|asset_url|handleize|size|default:\s*'[^']*')|\|\s*strip_html[^}]*\|\s*escape/;
+  for (const f of themeFiles.filter((x) => x.endsWith('.liquid'))) {
+    const src = readFileSync(f, 'utf8');
+    if (/<script\b(?![^>]*(src=|type="application\/json"))/i.test(src.replace(/\{%\s*schema[\s\S]*?endschema\s*%\}/, ''))) fail(`Inline executable <script> in ${rel(f)}`);
+    src.split('\n').forEach((line, i) => {
+      for (const m of line.matchAll(/\{\{-?\s*([^}]*?)\s*-?\}\}/g)) {
+        const expr = m[1];
+        if (RISKY.test(expr) && !SAFE.test(expr) && !/content_for_(header|layout)|image_tag|stylesheet_tag/.test(expr) && !/\{%/.test(expr))
+          fail(`Possibly unescaped Liquid output in ${rel(f)}:${i + 1}: {{ ${expr} }}`);
+      }
+    });
+  }
+}
+
 /* 5. Security headers */
 const headers = {};
 {

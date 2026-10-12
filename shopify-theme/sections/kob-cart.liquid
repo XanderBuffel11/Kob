@@ -1,0 +1,42 @@
+<div class="page-section wrap">
+  <h1 class="page-title">Your cart</h1>
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-empty">
+      <p class="cart-empty-title">Your cart is empty</p>
+      <p class="muted">Pick a scent family and add something you want to smell on your skin.</p>
+      <a class="btn btn-quiet" href="{{ routes.root_url }}#shop">Browse fragrances</a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      <ul class="cart-page-lines">
+        {%- for item in cart.items -%}
+          <li class="cart-line">
+            <a class="cart-thumb" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+              {%- if item.image -%}{{ item.image | image_url: width: 144 | image_tag: loading: 'lazy', width: 72, height: 72, alt: '' }}{%- endif -%}
+            </a>
+            <div class="cart-line-info">
+              <a class="cart-line-title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+              {%- unless item.product.has_only_default_variant -%}<span class="muted">{{ item.variant.title | escape }}</span>{%- endunless -%}
+              <span class="cart-line-price">{{ item.final_line_price | money }}</span>
+            </div>
+            <div class="field">
+              <label class="sr-only" for="q-{{ item.key | escape }}">Quantity for {{ item.product.title | escape }}</label>
+              <input id="q-{{ item.key | escape }}" type="number" name="updates[]" min="0" max="10" value="{{ item.quantity }}" inputmode="numeric">
+            </div>
+            <a class="link-button" href="{{ item.url_to_remove }}">Remove</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+      <div class="cart-page-summary">
+        <div class="cart-total"><span>Subtotal</span><strong>{{ cart.total_price | money }}</strong></div>
+        <p class="muted small">Shipping and taxes are calculated at checkout.</p>
+        <button type="submit" name="update" class="btn btn-quiet btn-block">Update cart</button>
+        <button type="submit" name="checkout" class="btn btn-primary btn-block">Go to secure checkout</button>
+      </div>
+    </form>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{ "name": "Cart page", "settings": [] }
+{% endschema %}

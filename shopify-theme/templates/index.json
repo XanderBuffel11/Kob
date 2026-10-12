@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "hero": { "type": "kob-hero", "settings": {} },
+    "shop": { "type": "kob-shop", "settings": {} },
+    "how": {
+      "type": "kob-how",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "title": "Choose a scent", "text": "Browse by family, check the notes and pick a bottle size." } },
+        "s2": { "type": "step", "settings": { "title": "Pay securely", "text": "Checkout happens on Shopify’s secure payment pages. We never see or store your card details." } },
+        "s3": { "type": "step", "settings": { "title": "We ship it", "text": "Delivery estimates and shipping costs appear at checkout before you pay." } }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {}
+    }
+  },
+  "order": ["hero", "shop", "how"]
+}

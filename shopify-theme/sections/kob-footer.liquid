@@ -1,0 +1,22 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-row">
+      <a class="wordmark" href="{{ routes.root_url }}">{{ section.settings.wordmark | default: shop.name | escape }}</a>
+      <ul class="footer-links">
+        {%- for policy in shop.policies -%}
+          <li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </div>
+    <p class="footer-note">© {{ 'now' | date: '%Y' }} {{ section.settings.wordmark | default: shop.name | escape }}. All brand names and trademarks belong to their respective owners.</p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "text", "id": "wordmark", "label": "Brand name", "default": "Kob" }
+  ]
+}
+{% endschema %}

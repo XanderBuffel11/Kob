@@ -1,0 +1,109 @@
+{%- liquid
+  assign family = ''
+  assign notes = ''
+  for tag in product.tags
+    assign tag_lc = tag | downcase
+    if tag_lc contains 'family:'
+      assign family = tag_lc | remove: 'family:' | strip
+    endif
+  endfor
+  assign current = product.selected_or_first_available_variant
+-%}
+<div class="product-page wrap" id="product" data-family="{{ family | escape }}">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a> / <a href="{{ routes.root_url }}#shop">Fragrances</a>
+  </nav>
+  <div class="product-layout">
+    <div class="gallery">
+      <div class="media media-large" data-family="{{ family | default: 'none' | escape }}" id="gallery-main">
+        {%- if product.featured_media.preview_image -%}
+          {%- assign main_alt = product.featured_media.alt | default: product.title -%}
+          {{ product.featured_media.preview_image | image_url: width: 900 | image_tag: widths: '450, 720, 900', sizes: '(min-width: 900px) 50vw, 100vw', alt: main_alt }}
+        {%- endif -%}
+      </div>
+      {%- if product.images.size > 1 -%}
+        <ul class="thumbs">
+          {%- for image in product.images limit: 8 -%}
+            {%- assign thumb_alt = image.alt | default: product.title -%}
+            <li>
+              <button type="button" aria-label="Show image {{ forloop.index }} of {{ forloop.length }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" data-large="{{ image | image_url: width: 900 }}" data-alt="{{ thumb_alt | escape }}">
+                {{ image | image_url: width: 160 | image_tag: loading: 'lazy', width: 64, height: 80, alt: '' }}
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="product-info">
+      {%- if family != blank -%}
+        <p class="family-tag" data-family="{{ family | escape }}">{{ family | capitalize | escape }}</p>
+      {%- endif -%}
+      <h1>{{ product.title | escape }}</h1>
+      <p class="muted">{{ product.vendor | escape }}</p>
+      <p class="price" id="price">{{ current.price | money }}</p>
+
+      {%- form 'product', product, class: 'buy', id: 'buy-form', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ current.id }}" id="variant-id">
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <fieldset class="option" data-option-index="{{ forloop.index0 }}">
+              <legend>{{ option.name | escape }}</legend>
+              <div class="option-values">
+                {%- for value in option.values -%}
+                  <button type="button" class="pill" data-value="{{ value | escape }}" aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}">{{ value | escape }}</button>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
+        {%- endunless -%}
+        <div class="field">
+          <label for="qty">Quantity</label>
+          <input id="qty" type="number" name="quantity" inputmode="numeric" min="1" max="10" step="1" value="1">
+        </div>
+        <p class="muted small" id="stock" role="status"></p>
+        <button type="submit" class="btn btn-primary btn-block" id="add-btn" {% unless current.available %}disabled{% endunless %}>
+          {%- if current.available -%}Add to cart{%- else -%}Sold out{%- endif -%}
+        </button>
+        <p class="form-error" id="buy-error" role="alert" hidden></p>
+      {%- endform -%}
+
+      {%- liquid
+        assign note_count = 0
+      -%}
+      {%- capture notes_html -%}
+        {%- for tag in product.tags -%}
+          {%- assign tag_lc = tag | downcase -%}
+          {%- if tag_lc contains 'note:' and note_count < 8 -%}
+            {%- assign note_count = note_count | plus: 1 -%}
+            <li>{{ tag | remove_first: 'note:' | remove_first: 'Note:' | strip | escape }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- if note_count > 0 -%}
+        <section class="notes" aria-labelledby="notes-h">
+          <h2 id="notes-h">Notes</h2>
+          <ul class="note-list">{{ notes_html }}</ul>
+        </section>
+      {%- endif -%}
+
+      {%- if product.description != blank -%}
+        <section class="prose" aria-labelledby="desc-h">
+          <h2 id="desc-h">About this fragrance</h2>
+          <p>{{ product.description | strip_html | truncate: 1500 | escape }}</p>
+        </section>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <script type="application/json" id="variants-json">
+    {{ product.variants | json }}
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": []
+}
+{% endschema %}

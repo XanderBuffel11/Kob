@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "kob-cart", "settings": {} } },
+  "order": ["main"]
+}

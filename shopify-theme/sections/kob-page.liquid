@@ -1,0 +1,15 @@
+<div class="page-section wrap">
+  <h1 class="page-title">{{ page.title | escape }}</h1>
+  {%- comment -%} Page content is entered by the store owner in Shopify admin; it is stripped to plain text. {%- endcomment -%}
+  <div class="rte">
+    {%- assign paragraphs = page.content | strip_html | newline_to_br | split: '<br />' -%}
+    {%- for paragraph in paragraphs -%}
+      {%- assign trimmed = paragraph | strip -%}
+      {%- if trimmed != blank -%}<p>{{ trimmed | escape }}</p>{%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Page", "settings": [] }
+{% endschema %}

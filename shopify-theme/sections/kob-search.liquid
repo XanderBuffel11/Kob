@@ -1,0 +1,36 @@
+<div class="page-section wrap">
+  <h1 class="page-title">Search</h1>
+  <form class="search-form" action="{{ routes.search_url }}" method="get" role="search">
+    <label class="sr-only" for="q">Search</label>
+    <input id="q" type="search" name="q" value="{{ search.terms | escape }}" maxlength="60" autocomplete="off" placeholder="Search by name or house">
+    <input type="hidden" name="type" value="product">
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+  {%- if search.performed -%}
+    {%- paginate search.results by 24 -%}
+      {%- if search.results_count == 0 -%}
+        <p class="muted">No results for “{{ search.terms | escape }}”. Try a different word.</p>
+      {%- else -%}
+        <p class="muted grid-status">{{ search.results_count }} {% if search.results_count == 1 %}result{% else %}results{% endif %} for “{{ search.terms | escape }}”</p>
+        <ul class="grid">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {%- render 'kob-card', product: item, position: forloop.index -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination" aria-label="Pagination">
+          {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">Previous</a>{%- endif -%}
+          <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+          {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Next</a>{%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{ "name": "Search page", "settings": [] }
+{% endschema %}

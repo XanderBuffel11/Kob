@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" dir="{{ request.locale.direction | default: 'ltr' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#eaeeec">
+    <title>{{ page_title | escape }}{% unless page_title contains shop.name %} · {{ shop.name | escape }}{% endunless %}</title>
+    {%- if page_description != blank -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preload" href="{{ 'bricolage-grotesque-latin-wght-normal.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+    <style>
+      @font-face { font-family: 'Bricolage Grotesque'; src: url('{{ 'bricolage-grotesque-latin-wght-normal.woff2' | asset_url }}') format('woff2'); font-weight: 200 800; font-display: swap; }
+      @font-face { font-family: 'Newsreader'; src: url('{{ 'newsreader-latin-wght-normal.woff2' | asset_url }}') format('woff2'); font-weight: 200 800; font-style: normal; font-display: swap; }
+      @font-face { font-family: 'Newsreader'; src: url('{{ 'newsreader-latin-wght-italic.woff2' | asset_url }}') format('woff2'); font-weight: 200 800; font-style: italic; font-display: swap; }
+    </style>
+    {{ 'kob.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'kob.js' | asset_url }}" defer></script>
+    {{ content_for_header }}
+  </head>
+  <body class="template-{{ request.page_type | handleize }}">
+    <a class="skip" href="#MainContent">Skip to content</a>
+
+    {% section 'kob-header' %}
+
+    <main id="MainContent">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'kob-footer' %}
+
+    <dialog class="cart-drawer" id="cart-drawer" aria-labelledby="cart-title" data-cart-url="{{ routes.cart_url }}" data-checkout-url="{{ routes.cart_url }}/checkout"></dialog>
+    <div class="sr-only" role="status" aria-live="polite" id="live-region"></div>
+  </body>
+</html>

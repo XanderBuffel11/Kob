@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "kob-product", "settings": {} } },
+  "order": ["main"]
+}

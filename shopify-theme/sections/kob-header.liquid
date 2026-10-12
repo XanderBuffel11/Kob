@@ -1,0 +1,22 @@
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="wordmark" href="{{ routes.root_url }}">{{ section.settings.wordmark | default: shop.name | escape }}</a>
+    <nav class="nav" aria-label="Main">
+      <a class="nav-link" href="{{ routes.root_url }}#shop">Shop</a>
+      <a class="nav-link" href="{{ routes.root_url }}#how">How it works</a>
+      <a class="nav-link" href="{{ routes.search_url }}">Search</a>
+      <button type="button" class="cart-button" data-open-cart>
+        Cart <span class="cart-count" data-cart-count aria-label="items in cart">{{ cart.item_count }}</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "text", "id": "wordmark", "label": "Brand name", "default": "Kob" }
+  ]
+}
+{% endschema %}

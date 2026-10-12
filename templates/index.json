@@ -144,7 +144,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Start with a scent family. Each one has its own mood: citrus, floral, fresh, woody and amber.</p>",
+                "text": "<p>Start with a scent family. Each one has its own mood: floral, fresh, woody and amber.</p>",
                 "width": "fit-content",
                 "max_width": "none",
                 "alignment": "left",
@@ -567,7 +567,7 @@
       "settings": {
         "layout_type": "grid",
         "carousel_on_mobile": false,
-        "columns": 5,
+        "columns": 4,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
         "columns_gap": 16,
@@ -582,7 +582,6 @@
         "padding-block-start": 48,
         "padding-block-end": 64,
         "collection_list": [
-          "citrus",
           "floral",
           "fresh",
           "woody",
